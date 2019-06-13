@@ -16,7 +16,7 @@ type Chaincode struct {
 }
 
 type Response struct {
-	Status      int32  `json:"status,omitempty"`
+	Status      int    `json:"status,omitempty"`
 	Payload     []byte `json:"payload,omitempty"`
 	Message     string `json:"message,omitempty"`
 	Transaction string `json:"transaction,omitempty"`
@@ -83,7 +83,7 @@ func processResponse(res *channel.Response, err error) *Response {
 		}
 	}
 	return &Response{
-		Status:        ccstatus,
+		Status:        int(ccstatus),
 		Payload:       payload,
 		Transaction:   transaction,
 		Message:       message,

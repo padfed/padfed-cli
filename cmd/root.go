@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/padfed/padfed-cli/cmd/padfed"
+
 	"github.com/mitchellh/go-homedir"
 	"github.com/padfed/padfed-cli/cmd/chaincode"
 	"github.com/padfed/padfed-cli/cmd/channel"
@@ -21,15 +23,26 @@ var (
 func Command() *cobra.Command {
 	root := &cobra.Command{
 		Use:           "padfed-cli",
-		Short:         "Padrón Federal / Command Line Interface",
+		Short:         "Padrón Federal Command Line Interface Tool",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}
 	root.PersistentFlags().StringVarP(&configFile, "config", "c", "", "Configuration file to use")
 	root.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "Enable debug mode")
 	root.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Output more data")
+
+	root.PersistentFlags().String("channel", "padfedchannel", "Channel name")
+	viper.BindPFlag("fabric.channel", root.PersistentFlags().Lookup("channel"))
+
+	root.PersistentFlags().String("chaincode", "padfedcc", "Chaincode name")
+	viper.BindPFlag("fabric.chaincode", root.PersistentFlags().Lookup("chaincode"))
+
 	root.AddCommand(chaincode.Command())
 	root.AddCommand(channel.Command())
+
+	root.AddCommand(padfed.GetPerson())
+	root.AddCommand(padfed.PutPerson())
+	root.AddCommand(padfed.PutPersonList())
 	return root
 }
 

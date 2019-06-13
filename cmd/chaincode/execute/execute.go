@@ -2,7 +2,6 @@ package execute
 
 import (
 	"encoding/json"
-	"os"
 
 	"github.com/padfed/padfed-cli/app/helpers"
 	client "github.com/padfed/padfed-cli/fabric-client"
@@ -27,25 +26,12 @@ func Command() *cobra.Command {
 }
 
 func Run(cmd *cobra.Command, args []string) error {
-	chn, err := cmd.Flags().GetString("channel")
-	if err != nil {
-		return err
-	}
-	ccn, err := cmd.Flags().GetString("chaincode")
-	if err != nil {
-		return err
-	}
-	cli := viper.Get("fabric-client").(*client.Client)
-	ch, err := cli.Channel(chn)
-	if err != nil {
-		return err
-	}
-	cc := ch.Chaincode(ccn)
-	enc := json.NewEncoder(os.Stdout)
+	cc := viper.Get("chaincode").(*client.Chaincode)
+	enc := json.NewEncoder(cmd.OutOrStdout())
 	enc.SetEscapeHTML(false)
 	for r := uint64(0); r < repeat; r++ {
 		res := cc.Execute(args[0], helpers.Bytes(1, args))
-		if enc.Encode(res) != nil {
+		if err := enc.Encode(res); err != nil {
 			return err
 		}
 	}
