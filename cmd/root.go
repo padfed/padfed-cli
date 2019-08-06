@@ -81,9 +81,12 @@ func LoadConfiguration() {
 	viper.Set("debug", debug)
 	viper.Set("verbose", verbose)
 	cli, err := client.New(client.User{
-		Organization: viper.GetString("fabric.organization"),
-		Certificate:  []byte(viper.GetString("fabric.user.certificate")),
-		PrivateKey:   []byte(viper.GetString("fabric.user.privatekey")),
+		Organization:    viper.GetString("fabric.organization"),
+		Name:            viper.GetString("fabric.user.name"),
+		Certificate:     []byte(viper.GetString("fabric.user.certificate")),
+		CertificatePath: viper.GetString("fabric.user.certificate-path"),
+		PrivateKey:      []byte(viper.GetString("fabric.user.privatekey")),
+		PrivateKeyPath:  viper.GetString("fabric.user.privatekey-path"),
 	})
 	exitOnError(err)
 	viper.Set("fabric-client", cli)

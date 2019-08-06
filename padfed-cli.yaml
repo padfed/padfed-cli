@@ -1,0 +1,146 @@
+fabric:
+  channel: "padfedchannel"
+  chaincode: "padfedcc"
+  #target:
+  #  - peer0.blockchain-tributaria.testnet.afip.gob.ar
+  #  - peer0.blockchain-tributaria.testnet.comarb.gob.ar
+  organization: AFIP
+  user:
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      MIICeDCCAiCgAwIBAgIRALs059AkS/hMvkLXTby1kAMwCgYIKoZIzj0EAwIwgacx
+      CzAJBgNVBAYTAkFSMQ0wCwYDVQQIEwRDQUJBMQ0wCwYDVQQHEwRDQUJBMTIwMAYD
+      VQQKEylibG9ja2NoYWluLXRyaWJ1dGFyaWEudGVzdG5ldC5hZmlwLmdvYi5hcjEP
+      MA0GA1UECxMGU0RHU0lUMTUwMwYDVQQDEyxjYS5ibG9ja2NoYWluLXRyaWJ1dGFy
+      aWEudGVzdG5ldC5hZmlwLmdvYi5hcjAeFw0xOTAxMDQxNTIwMDBaFw0yOTAxMDEx
+      NTIwMDBaMIGFMQswCQYDVQQGEwJBUjENMAsGA1UECBMEQ0FCQTENMAsGA1UEBxME
+      Q0FCQTEeMA0GA1UECxMGU0RHU0lUMA0GA1UECxMGY2xpZW50MTgwNgYDVQQDDC9V
+      c2VyMUBibG9ja2NoYWluLXRyaWJ1dGFyaWEudGVzdG5ldC5hZmlwLmdvYi5hcjBZ
+      MBMGByqGSM49AgEGCCqGSM49AwEHA0IABFHksQ8xpgNohKCr9QooNOP3nTV2q23C
+      E1plc35DSRkjAYQsxfdzWKhHAl+6x3+gWl4fl7obDdlfrBpOdT7w+eWjTTBLMA4G
+      A1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8EAjAAMCsGA1UdIwQkMCKAINCVYtupWmME
+      pNbATtm2UIq+Tp+H5DwLLNCLVIKyqIE2MAoGCCqGSM49BAMCA0YAMEMCH1hqdj7x
+      r6VPQkG+tYF11pEZCJaR+FU4cTs8APHW2KkCIASpcfIAPTsujkQIR1toATKGKUR0
+      s2EcEuukEzPWKLyH
+      -----END CERTIFICATE-----
+    privatekey: |
+      -----BEGIN PRIVATE KEY-----
+      MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgzaxGeQWSHyQu/5Ng
+      i0U8Y4wUwKjSkBDCT5vCNDZpIsShRANCAARR5LEPMaYDaISgq/UKKDTj9501dqtt
+      whNaZXN+Q0kZIwGELMX3c1ioRwJfusd/oFpeH5e6Gw3ZX6waTnU+8Pnl
+      -----END PRIVATE KEY-----
+  config: |
+    client:
+      logging:
+        level: error
+    entityMatchers:
+      peer:
+        - pattern: peer0.blockchain-tributaria.testnet.afip.gob.ar
+          sslTargetOverrideUrlSubstitutionExp: peer0.blockchain-tributaria.testnet.afip.gob.ar
+          urlSubstitutionExp: grpcs://10.30.215.143:8080
+          mappedHost: peer0.blockchain-tributaria.testnet.afip.gob.ar
+        - pattern: peer0.blockchain-tributaria.testnet.comarb.gob.ar
+          sslTargetOverrideUrlSubstitutionExp: peer0.blockchain-tributaria.testnet.comarb.gob.ar
+          urlSubstitutionExp: grpcs://10.30.215.144:8080
+          mappedHost: peer0.blockchain-tributaria.testnet.comarb.gob.ar
+      orderer:
+        - pattern: orderer0.orderer.blockchain-tributaria.testnet.afip.gob.ar
+          sslTargetOverrideUrlSubstitutionExp: orderer0.orderer.blockchain-tributaria.testnet.afip.gob.ar
+          urlSubstitutionExp: grpcs://10.30.215.146:8080
+          mappedHost: orderer0.orderer.blockchain-tributaria.testnet.afip.gob.ar
+    channels:
+      padfedchannel:
+        peers:
+          peer0.blockchain-tributaria.testnet.afip.gob.ar:
+            endorsingPeer: true
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: true
+          peer0.blockchain-tributaria.testnet.comarb.gob.ar:
+            endorsingPeer: true
+            chaincodeQuery: true
+            ledgerQuery: true
+            eventSource: true
+    organizations:
+      AFIP:
+        mspid: AFIP
+        cryptopath: msp/afip
+        peers:
+          - peer0.blockchain-tributaria.testnet.afip.gob.ar
+      COMARB:
+        mspid: COMARB
+        cryptopath: msp/comarb
+        peers:
+          - peer0.blockchain-tributaria.testnet.comarb.gob.ar
+    orderers:
+      orderer0.orderer.blockchain-tributaria.testnet.afip.gob.ar:
+        url: grpcs://10.30.215.146:8080
+        grpcoptions:
+          ssl-target-name-override: orderer0.orderer.blockchain-tributaria.testnet.afip.gob.ar
+        tlscacerts:
+          pem: |
+            -----BEGIN CERTIFICATE-----
+            MIIC1DCCAnqgAwIBAgIRAKczMhLVD9d4JO4JOqTMlAIwCgYIKoZIzj0EAwIwgbox
+            CzAJBgNVBAYTAkFSMQ0wCwYDVQQIEwRDQUJBMQ0wCwYDVQQHEwRDQUJBMTowOAYD
+            VQQKEzFvcmRlcmVyLmJsb2NrY2hhaW4tdHJpYnV0YXJpYS50ZXN0bmV0LmFmaXAu
+            Z29iLmFyMQ8wDQYDVQQLEwZTREdTSVQxQDA+BgNVBAMTN3Rsc2NhLm9yZGVyZXIu
+            YmxvY2tjaGFpbi10cmlidXRhcmlhLnRlc3RuZXQuYWZpcC5nb2IuYXIwHhcNMTkw
+            MTA0MTUyMDAwWhcNMjkwMTAxMTUyMDAwWjCBujELMAkGA1UEBhMCQVIxDTALBgNV
+            BAgTBENBQkExDTALBgNVBAcTBENBQkExOjA4BgNVBAoTMW9yZGVyZXIuYmxvY2tj
+            aGFpbi10cmlidXRhcmlhLnRlc3RuZXQuYWZpcC5nb2IuYXIxDzANBgNVBAsTBlNE
+            R1NJVDFAMD4GA1UEAxM3dGxzY2Eub3JkZXJlci5ibG9ja2NoYWluLXRyaWJ1dGFy
+            aWEudGVzdG5ldC5hZmlwLmdvYi5hcjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA
+            BLymo+rPDIm2pib9AsXK+BRTUWrH++Zbp/cvf3HvbSWfnto6w7Oi1fPGSw6Jpsxv
+            CjYb6FZxJavKgcEwnE48bZ+jXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAG
+            BgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIBHv30To9bF2zj7+btaW
+            HznZrQZyKkugEKJkRwmrSv1DMAoGCCqGSM49BAMCA0gAMEUCIQDznIaZV1ohx4Mq
+            +tmLUJUbowxTZkj1pLVcZoB08qCxwAIgfF9gIaPZMhy7sVLXYzbBEethKt5Di4S9
+            e69POj7g7W0=
+            -----END CERTIFICATE-----
+    peers:
+      peer0.blockchain-tributaria.testnet.afip.gob.ar:
+        url: grpcs://10.30.215.143:8080
+        grpcoptions:
+          ssl-target-name-override: peer0.blockchain-tributaria.testnet.afip.gob.ar
+        tlscacerts:
+          pem: |
+            -----BEGIN CERTIFICATE-----
+            MIICsjCCAlmgAwIBAgIQMOpWANA5rVka4Gvtf7dzizAKBggqhkjOPQQDAjCBqjEL
+            MAkGA1UEBhMCQVIxDTALBgNVBAgTBENBQkExDTALBgNVBAcTBENBQkExMjAwBgNV
+            BAoTKWJsb2NrY2hhaW4tdHJpYnV0YXJpYS50ZXN0bmV0LmFmaXAuZ29iLmFyMQ8w
+            DQYDVQQLEwZTREdTSVQxODA2BgNVBAMTL3Rsc2NhLmJsb2NrY2hhaW4tdHJpYnV0
+            YXJpYS50ZXN0bmV0LmFmaXAuZ29iLmFyMB4XDTE5MDEwNDE1MjAwMFoXDTI5MDEw
+            MTE1MjAwMFowgaoxCzAJBgNVBAYTAkFSMQ0wCwYDVQQIEwRDQUJBMQ0wCwYDVQQH
+            EwRDQUJBMTIwMAYDVQQKEylibG9ja2NoYWluLXRyaWJ1dGFyaWEudGVzdG5ldC5h
+            ZmlwLmdvYi5hcjEPMA0GA1UECxMGU0RHU0lUMTgwNgYDVQQDEy90bHNjYS5ibG9j
+            a2NoYWluLXRyaWJ1dGFyaWEudGVzdG5ldC5hZmlwLmdvYi5hcjBZMBMGByqGSM49
+            AgEGCCqGSM49AwEHA0IABP2g7QKBcG5YmLO8tKWVbQYPeT2Yqgo5MiAV71P5YMJj
+            QuIvSZTrb7qwOD6ckc+GkP2/NfnoRzQBnrijrgk94XujXzBdMA4GA1UdDwEB/wQE
+            AwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIE
+            IKDatrKFN1GTadnEX5A6ItxDbe0rbHI8m5/irxPeXfgLMAoGCCqGSM49BAMCA0cA
+            MEQCIFdBh2gNBo0TZkivp2f2bmcuHWrfP09NWYaSp9+fXk57AiAo4Vuf5AOgtP2a
+            Tdj4sEYXH5cXLwgtD6NRBpr5qOxnpw==
+            -----END CERTIFICATE-----
+      peer0.blockchain-tributaria.testnet.comarb.gob.ar:
+        url: grpcs://10.30.215.144:8080
+        grpcoptions:
+          ssl-target-name-override: peer0.blockchain-tributaria.testnet.comarb.gob.ar
+        tlscacerts:
+          pem: |
+            -----BEGIN CERTIFICATE-----
+            MIICtDCCAlugAwIBAgIQZW042clBW43hr8ymGziBcTAKBggqhkjOPQQDAjCBqzEL
+            MAkGA1UEBhMCQVIxDTALBgNVBAgTBENBQkExDTALBgNVBAcTBENBQkExNDAyBgNV
+            BAoTK2Jsb2NrY2hhaW4tdHJpYnV0YXJpYS50ZXN0bmV0LmNvbWFyYi5nb2IuYXIx
+            DDAKBgNVBAsTA0dUSTE6MDgGA1UEAxMxdGxzY2EuYmxvY2tjaGFpbi10cmlidXRh
+            cmlhLnRlc3RuZXQuY29tYXJiLmdvYi5hcjAeFw0xOTAxMDQxNTIwMDBaFw0yOTAx
+            MDExNTIwMDBaMIGrMQswCQYDVQQGEwJBUjENMAsGA1UECBMEQ0FCQTENMAsGA1UE
+            BxMEQ0FCQTE0MDIGA1UEChMrYmxvY2tjaGFpbi10cmlidXRhcmlhLnRlc3RuZXQu
+            Y29tYXJiLmdvYi5hcjEMMAoGA1UECxMDR1RJMTowOAYDVQQDEzF0bHNjYS5ibG9j
+            a2NoYWluLXRyaWJ1dGFyaWEudGVzdG5ldC5jb21hcmIuZ29iLmFyMFkwEwYHKoZI
+            zj0CAQYIKoZIzj0DAQcDQgAEOuHMsLaDgpzWyq/Y8GqNfFwWvZUnbpcyg/Z1vgYO
+            OxI3FCb6gSMptYWKJ+9vDDYOWj+MFiz11MV5k1He1feZV6NfMF0wDgYDVR0PAQH/
+            BAQDAgGmMA8GA1UdJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4E
+            IgQgJZfUEsoPtSz6mkSo63Cb4N9s46RCEN/9mDzDTEOxhngwCgYIKoZIzj0EAwID
+            RwAwRAIgPiZqk2cidZbOlvsGKQaraYiCkGCXnsSHGJeLwc4XZ6YCICvmrVcJ2FhU
+            8/0BaTFMFlxGFEPUL2ieH5ZWmZXBDUNa
+            -----END CERTIFICATE-----
